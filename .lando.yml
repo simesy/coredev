@@ -1,0 +1,7 @@
+name: coredev
+recipe: drupal9
+config:
+  php: '7.3'
+  via: nginx
+  database: mariadb
+  webroot: web
