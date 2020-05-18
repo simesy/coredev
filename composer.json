@@ -1,0 +1,12 @@
+{
+    "name": "si/d9-core-dev-lando",
+    "minimum-stability": "dev",
+    "require": {
+        "drupal/drupal": "~9.1"
+    },
+    "config": {
+        "preferred-install": {
+            "drupal/*": "source"
+        }
+    }
+}
