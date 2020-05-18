@@ -4,4 +4,4 @@ config:
   php: '7.3'
   via: nginx
   database: mariadb
-  webroot: web
+  webroot: drupal
