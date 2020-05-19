@@ -1,5 +1,8 @@
 {
     "require": {
-        "drush/drush": "~10"
-    }
+        "drush/drush": "~10",
+        "drupal/core": "^9"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
