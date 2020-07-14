@@ -5,6 +5,7 @@ commands:
   setup:
     usage: Clone Drupal and stuff
     cmd: |
+      composer install
       git clone https://git.drupalcode.org/project/drupal.git drupal-91x
       cd _ && git checkout 9.1.x
 
@@ -12,7 +13,7 @@ commands:
     usage: Resets core
     cmd: |
       cd _
-      chmod 755 sites/default
+      chmod -Rf 755 sites/default
       rm -Rf sites/default
       git checkout sites/default
       git stash
@@ -21,15 +22,35 @@ commands:
       git checkout 9.1.x
       git pull
       git status
+      cp example.gitignore .gitignore && echo ".gitignore" >> .gitignore
 
   install:
-    usage: Does a fresh drupal install
+    usage: Does a fresh Drupal install
     cmd: |
       cp settings.php _/sites/default/settings.php
+      cd _ && composer install && cd ..
       lando drush --root=/app/_ site:install --yes
+      lando drush --root=/app/_ cache:rebuild
       lando drush --root=/app/_ --uri=https://coredev.lndo.site uli
 
   drush:
     usage: Drush command against the site
     cmd: |
       lando drush --root=/app/_ --uri=https://coredev.lndo.site "$@"
+
+  patch:
+    usage: Apply a patch from a URL
+    cmd: |
+      cd _
+      git reset --hard
+      git clean -fd
+      curl "$@" | git apply -v
+      git status
+
+  core-tests:
+    usage: Apply a patch from a URL
+    cmd: |
+      lando ssh -c " \
+        cd /app/_ \
+        ls
+      "

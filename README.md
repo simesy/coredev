@@ -62,9 +62,9 @@ Runs a drush command against the Drupal site. Basically it just runs `lando drus
 passing in the root location and uri.
 
 ```
-ahoy patch URL
+ahoy patch SOMEURL
 ```
 
-todo
+Get a URL to a patch (say from Drupal.org) and apply it.
 
 
