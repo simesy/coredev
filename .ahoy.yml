@@ -1,0 +1,29 @@
+ahoyapi: v2
+usage: Commands
+commands:
+
+  reset:
+    usage: Resets core
+    cmd: |
+      cd _
+      chmod 755 sites/default
+      rm -Rf sites/default
+      git checkout sites/default
+      git stash
+      git reset --hard
+      git clean -fd
+      git checkout 9.1.x
+      git pull
+      git status
+
+  install:
+    usage: Does a fresh drupal install
+    cmd: |
+      cp settings.php _/sites/default/settings.php
+      lando drush --root=/app/_ site:install --yes
+      lando drush --root=/app/_ --uri=https://coredev.lndo.site uli
+
+  drush:
+    usage: Drush command against the site
+    cmd: |
+      lando drush --root=/app/_ --uri=https://coredev.lndo.site "$@"
