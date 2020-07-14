@@ -5,24 +5,25 @@ swing of working on Drupal core issues. Working on Drupal core is not like worki
 on an existing website project for various reason.
 
 The most obvious reason is that the file structure is different. A standard site will put
-Drupal core in `./web/core` but when you work on core you may just have the Drupal repository.
+Drupal core in `./vendor` and `./web/core` but when you work on core you may just have
+the Drupal repository with `./core` with `./vendor` containing a subset of typical tools.
 
-So for example, when working on a standard site you would add Drush via `composer.json`.
-If you do this with Drupal core you will have to either use a Drupal scaffold, or modify
-core's `composer.json` which results in a dirty git clone. Core developers have various
-strategies and preferences, as I have discovered, and there are a few variations in how they
-work. 
+So for example, when working on a site you can add Drush via `composer.json` of your
+composer scaffold. Drupal core development generally doesn't use a scaffold and
+if you add Drush via core's  `composer.json` you start to dirty up your git clone.
+Core developers have various strategies and preferences, as I have discovered, and there
+are a few variations in how they work.
 
 My preference is to keep my Drupal core clone as clean as possible in a sandbox that has 
 convenience commands. When I start to work on an issue I don't want to remember what
 I was working on last time, what I customised and why. I might want to destory my git clone
 completely and start again.
 
-I also prefer to install a site with Lando. This makes my development environment
-more familiar. To contrast, some core developers might suggest using sqllite (no docker), or
-`core/scripts/test-site.php` script that creates new `sites/simpletest/foo` installation 
-because it is more in line with how the CI tests run. I prefer a site that I can reinstall
-with Lando that is always there at `https://coredev.lndo.site` and maps to `sites/default`.
+I also prefer to let Lando handle local dev stacks. This keeps my tooling the same across
+various projects. Some core developers might suggest using pure php/sqllite (no docker), or
+to install with `core/scripts/test-site.php` script that creates new `sites/simpletest/*`
+installations. I prefer a site that I can install and reinstall with drush that is always
+at `https://coredev.lndo.site` and maps to `sites/default`.
 
 ## Key tasks
 
