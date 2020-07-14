@@ -2,6 +2,12 @@ ahoyapi: v2
 usage: Commands
 commands:
 
+  setup:
+    usage: Clone Drupal and stuff
+    cmd: |
+      git clone https://git.drupalcode.org/project/drupal.git drupal-91x
+      cd _ && git checkout 9.1.x
+
   reset:
     usage: Resets core
     cmd: |
