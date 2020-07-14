@@ -1,2 +1,7 @@
+# Code checkouts.
 /drupal-*
+# Where Drush is installed.
 /vendor
+# settings.php points here for config.
+/config/*
+
