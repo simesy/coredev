@@ -5,3 +5,28 @@ config:
   via: nginx
   database: mariadb
   webroot: drupal-91x
+#
+#proxy:
+#  appserver:
+#    - tests.lndo.site
+
+services:
+  appserver:
+    overrides:
+      environment:
+        PHP_IDE_CONFIG: "serverName=appserver"
+        SIMPLETEST_DB: "mysql://drupal:drupal@simpletest/drupal"
+        SIMPLETEST_BASE_URL: "http://coredev.lndo.site"
+
+  database:
+    type: mysql
+    creds:
+      user: drupal
+      password: drupal
+      database: drupal
+  testdb:
+    type: mysql
+    creds:
+      user: drupal
+      password: drupal
+      database: drupal

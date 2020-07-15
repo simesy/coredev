@@ -23,6 +23,7 @@ commands:
       git pull
       git status
       cp example.gitignore .gitignore && echo ".gitignore" >> .gitignore
+      composer install
 
   install:
     usage: Does a fresh Drupal install

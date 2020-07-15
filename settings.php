@@ -7,9 +7,9 @@
 $settings["config_sync_directory"] = '../config';
 
 $databases['default']['default'] = [
-  'database' => 'drupal9',
-  'username' => 'drupal9',
-  'password' => 'drupal9',
+  'database' => 'drupal',
+  'username' => 'drupal',
+  'password' => 'drupal',
   'prefix' => '',
   'host' => 'database',
   'port' => '3306',
@@ -17,4 +17,3 @@ $databases['default']['default'] = [
   'driver' => 'mysql',
 ];
 $settings['install_profile'] = 'minimal';
-
