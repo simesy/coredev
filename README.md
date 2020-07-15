@@ -7,7 +7,7 @@ You're welcome to try it and offer PRs. I'm @sime in Drupal Slack #australia-nz.
 
 ```
 git clone
-ahoy setup          # Destructive.
+ahoy setup          # Destructive of anything that might be in ./drupal-91x.
 ahoy install        # Should get a login url.
 ahoy drush status   # Should show a functioning site.
 ahoy patch SOMEURL  # See notes.
