@@ -17,14 +17,14 @@ ahoy patch SOMEURL  # See notes.
 
 Since I infrequently work on Drupal core, I find it difficult to get in the
 swing of working on Drupal core issues. Working on Drupal core is not like working
-on an existing website project for various reason.
+on an existing website project for various reasons.
 
 The most obvious reason is that the file structure is different. A standard site will put
 Drupal core in `./vendor` and `./web/core` but when you work on core you may just have
 the Drupal repository with `./core` with `./vendor` at the top level.
 
 Normally you would add Drush via `composer.json` of your composer scaffold. Drupal core
-development generally doesn't use a scaffold because you want to keep it has stand-alone
+development generally doesn't use a scaffold because you want to keep it as stand-alone
 as possible. So if you added Drush via core's  `composer.json` you start to dirty up your
 git clone and you introduce a lot of dependencies (and possible composer conflicts).
 
@@ -41,24 +41,24 @@ maps to `sites/default`.
 ## Key tasks
 
 I put the main convenience commands in `.ahoy.yml` but I don't alway use them. These helpers
-double as documentation for how to achieve certain outcomes - I need these
-reminders if it's been months since I worked on Drupal core.
+double as documentation for how to achieve certain outcomes - I need these reminders
+if it's been months since I worked on Drupal core.
 
 ```
 ahoy setup
 ```
 
 Destructive. Installs Drush at `./vendor/bin/drush` and then (re)clones Drupal. I am just
-cloning Drupal core into `drupal-91x` which is excluded in `.gitignore`. There is a symlink from `_` to this
-directory. All the other `ahoy` commands point to symlink. So yeah, if you're working on
-Drupal 10.7 then probably I'm not yet.
+cloning Drupal core into `drupal-91x` which is excluded in `.gitignore`. There is a symlink
+from `_` to this directory. All the other `ahoy` commands point to symlink. This is a bit
+messy but fine for now.
 
 ```
 ahoy reset
 ```
 
-This goes into the the Drupal clone and hard resets it. You are likely to lose work
-running this command if you're used to leaving patches lying around in your
+This basically hard resets the Drupal clone and cleans up the sites directory. You are likely
+to lose work running this command if you're used to leaving patches lying around in your
 repo clone. It also wipes the `sites/default` directory.
 
 ```
@@ -79,13 +79,14 @@ passing in the root location and uri.
 ahoy patch SOMEURL
 ```
 
-Get a URL to a patch (say from Drupal.org) and apply it.
+Get a URL to a patch (say from Drupal.org) and apply it. This is the way I usually work
+applying patches.
 
 ## Run tests
 
-The correct SIMPLETEST environment settings should be in place via the .lando.yml
+The correct SIMPLETEST environment settings should be in the container courtesy of the `.lando.yml`
 There is a separate database server `testdb` for the tests - not that this is really
-needed because of database prefixing.
+needed because of database prefixing - so tests should "just work".
 
 So to run some tests:
 
@@ -95,6 +96,3 @@ cd _/core
 ../vendor/bin/phpunit modules/user/tests/src/Functional/UserCreateTest.php
 ../vendor/bin/phpunit modules/user/tests/src/FunctionalJavascript/RegistrationWithUserFieldsTest.php
 ```
-
-
-
