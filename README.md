@@ -1,42 +1,55 @@
 # Drupal core dev with lando
 
+This is not a framework, rather it captures my steps to set up Drupal core development.
+You're welcome to try it and offer PRs. I'm @sime in Drupal Slack #australia-nz.
+
+## Quick steps
+
+```
+git clone
+ahoy setup          # Destructive.
+ahoy install        # Should get a login url.
+ahoy drush status   # Should show a functioning site.
+ahoy patch SOMEURL  # See notes.
+```
+
+## Some detail
+
 Since I infrequently work on Drupal core, I find it difficult to get in the
 swing of working on Drupal core issues. Working on Drupal core is not like working
 on an existing website project for various reason.
 
 The most obvious reason is that the file structure is different. A standard site will put
 Drupal core in `./vendor` and `./web/core` but when you work on core you may just have
-the Drupal repository with `./core` with `./vendor` containing a subset of typical tools.
+the Drupal repository with `./core` with `./vendor` at the top level.
 
-So for example, when working on a site you can add Drush via `composer.json` of your
-composer scaffold. Drupal core development generally doesn't use a scaffold and
-if you add Drush via core's  `composer.json` you start to dirty up your git clone.
-Core developers have various strategies and preferences, as I have discovered, and there
-are a few variations in how they work.
+Normally you would add Drush via `composer.json` of your composer scaffold. Drupal core
+development generally doesn't use a scaffold because you want to keep it has stand-alone
+as possible. So if you added Drush via core's  `composer.json` you start to dirty up your
+git clone and you introduce a lot of dependencies (and possible composer conflicts).
 
-My preference is to keep my Drupal core clone as clean as possible in a sandbox that has 
-convenience commands. When I start to work on an issue I don't want to remember what
-I was working on last time, what I customised and why. I might want to destory my git clone
-completely and start again.
+Core developers seem to have their own tricks, but my preference is to keep my Drupal clone
+as clean as possible in a sandbox (this repo) with some helpful tooling. When I start to work on an
+issue I don't want to remember what I was working on last time, what I customised and why.
+I might want to destroy my setup completely and start again.
 
-I also prefer to let Lando handle local dev stacks. This keeps my tooling the same across
-various projects. Some core developers might suggest using pure php/sqllite (no docker), or
-to install with `core/scripts/test-site.php` script that creates new `sites/simpletest/*`
-installations. I prefer a site that I can install and reinstall with drush that is always
-at `https://coredev.lndo.site` and maps to `sites/default`.
+While some devs like to use sqlite and other tools, I prefer to let Lando handle local
+dev stacks. This keeps my tooling the same across various projects. I prefer a site that I
+can install and reinstall with drush that is always at `https://coredev.lndo.site` and
+maps to `sites/default`.
 
 ## Key tasks
 
-I put the main convenience commands in `.ahoy.yml`. Even if I don't run commands via `ahoy`,
-these helpers double as documentation for how to achieve certain outcomes - I need these
+I put the main convenience commands in `.ahoy.yml` but I don't alway use them. These helpers
+double as documentation for how to achieve certain outcomes - I need these
 reminders if it's been months since I worked on Drupal core.
 
 ```
 ahoy setup
 ```
 
-Installs Drush at `./vendor/bin/drush` and then clones Drupal. I am just cloning Drupal core
-into `drupal-91x` which is excluded in `.gitignore`. There is a symlink from `_` to this
+Destructive. Installs Drush at `./vendor/bin/drush` and then (re)clones Drupal. I am just
+cloning Drupal core into `drupal-91x` which is excluded in `.gitignore`. There is a symlink from `_` to this
 directory. All the other `ahoy` commands point to symlink. So yeah, if you're working on
 Drupal 10.7 then probably I'm not yet.
 
@@ -67,5 +80,21 @@ ahoy patch SOMEURL
 ```
 
 Get a URL to a patch (say from Drupal.org) and apply it.
+
+## Run tests
+
+The correct SIMPLETEST environment settings should be in place via the .lando.yml
+There is a separate database server `testdb` for the tests - not that this is really
+needed because of database prefixing.
+
+So to run some tests:
+
+```
+lando ssh
+cd _/core
+../vendor/bin/phpunit modules/user/tests/src/Functional/UserCreateTest.php
+../vendor/bin/phpunit modules/user/tests/src/FunctionalJavascript/RegistrationWithUserFieldsTest.php
+```
+
 
 

@@ -15,7 +15,7 @@ services:
     overrides:
       environment:
         PHP_IDE_CONFIG: "serverName=appserver"
-        SIMPLETEST_DB: "mysql://drupal:drupal@simpletest/drupal"
+        SIMPLETEST_DB: "mysql://drupal:drupal@testdb/drupal"
         SIMPLETEST_BASE_URL: "http://coredev.lndo.site"
 
   database:
