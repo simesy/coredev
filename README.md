@@ -3,12 +3,20 @@
 This is not a framework, rather it captures my steps to set up Drupal core development.
 You're welcome to try it and offer PRs. I'm @sime in Drupal Slack #australia-nz.
 
+## Dependencies
+
+This assumes Lando and Ahoy.
+
+Ahoy is just a simple command runner. You can in theory just run the commands as
+they appear in `.ahoy.yml`, or some Lando "tooling" PRs would be welcome.
+
 ## Quick steps
 
 ```
 git clone
 ahoy setup          # Destructive of anything that might be in ./drupal-91x.
-ahoy install        # Should get a login url.
+lando start         # Bring up the containers.
+ahoy install        # Install Drupal at https://coredev.lndo.site and get a login url.
 ahoy drush status   # Should show a functioning site.
 ahoy patch SOMEURL  # See notes.
 ```
