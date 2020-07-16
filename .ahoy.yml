@@ -33,12 +33,16 @@ commands:
   install:
     usage: Does a fresh Drupal install
     cmd: |
-      cp settings.php _/sites/default/settings.php
+      chmod -R 775 _/sites/default
+      rm -Rf _/sites/default/*
+      cp ./templates/settings.php _/sites/default/settings.php
+      cp ./templates/services.yml _/sites/default/services.yml
       cd _ && composer install && cd ..
       lando drush --root=/app/_ site:install --yes
       lando drush --root=/app/_ cache:rebuild
       lando drush --root=/app/_ --uri=https://coredev.lndo.site uli
       lando drush --root=/app/_ cache:rebuild
+      chmod -R 775 _/sites/default
 
   drush:
     usage: Drush command against the site
