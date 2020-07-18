@@ -13,12 +13,10 @@ commands:
       ahoy reset
 
   reset:
-    usage: Resets core
+    usage: Resets core ready for a new patch, leaving the site installed.
     cmd: |
       cd _
       chmod -Rf 755 sites/default
-      rm -Rf sites/default
-      git checkout sites/default
       git stash
       git reset --hard
       git clean -fd
@@ -48,6 +46,8 @@ commands:
     usage: Drush command against the site
     cmd: |
       lando drush --root=/app/_ --uri=https://coredev.lndo.site "$@"
+      # Avoids getting drush stuck in the container when you switch back to web.
+      lando drush --root=/app/_ cr
 
   patch:
     usage: Apply a patch from a URL
