@@ -88,7 +88,8 @@ ahoy patch SOMEURL
 ```
 
 Get a URL to a patch (say from Drupal.org) and apply it. This is the way I usually work
-applying patches.
+applying patches. Once I start working on more patches I will probably make some more fine-tuned
+commands. At the moment I just use git commands for most things.
 
 ## Run tests
 
