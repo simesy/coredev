@@ -65,9 +65,9 @@ messy but fine for now.
 ahoy reset
 ```
 
-This basically hard resets the Drupal clone and cleans up the sites directory. You are likely
+This basically hard resets the Drupal clone (but doesn't touch your installed site). You are likely
 to lose work running this command if you're used to leaving patches lying around in your
-repo clone. It also wipes the `sites/default` directory.
+repo clone.
 
 ```
 ahoy install
@@ -88,7 +88,8 @@ ahoy patch SOMEURL
 ```
 
 Get a URL to a patch (say from Drupal.org) and apply it. This is the way I usually work
-applying patches.
+applying patches. Once I start working on more patches I will probably make some more fine-tuned
+commands. At the moment I just use git commands for most things.
 
 ## Run tests
 
