@@ -16,7 +16,7 @@ commands:
     usage: Resets core ready for a new patch, leaving the site installed.
     cmd: |
       cd _
-      chmod -Rf 755 sites/default
+      chmod -Rf 775 sites/default
       git stash
       git reset --hard
       git clean -fd
@@ -25,13 +25,13 @@ commands:
       git status
       cp example.gitignore .gitignore
       echo ".gitignore" >> .gitignore
-      echo "core/phpunit.xml" >> .gitignore
+      #echo "core/phpunit.xml" >> .gitignore
       composer install
 
   install:
     usage: Does a fresh Drupal install
     cmd: |
-      chmod -R 775 _/sites/default
+      chmod -Rf 775 _/sites/default
       rm -Rf _/sites/default/*
       cp ./templates/settings.php _/sites/default/settings.php
       cp ./templates/services.yml _/sites/default/services.yml
@@ -41,6 +41,7 @@ commands:
       lando drush --root=/app/_ --uri=https://coredev.lndo.site uli
       lando drush --root=/app/_ cache:rebuild
       chmod -R 775 _/sites/default
+      cd _ && git checkout sites/default # Install removes some files we don't want to show as dirty in git.
 
   drush:
     usage: Drush command against the site
