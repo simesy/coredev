@@ -4,4 +4,5 @@
 /vendor
 # settings.php points here for config.
 /config/*
-
+# Place to drop patches.
+/patches/*
