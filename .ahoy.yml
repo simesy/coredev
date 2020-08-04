@@ -35,7 +35,7 @@ commands:
       rm -Rf 91x/sites/default/*
       cp ./templates/settings.php 91x/sites/default/settings.php
       cp ./templates/services.yml 91x/sites/default/services.yml
-      cd _ && composer install && cd ..
+      cd 91x && composer install && cd ..
       lando drush --root=/app/91x site:install --yes
       lando drush --root=/app/91x cache:rebuild
       lando drush --root=/app/91x --uri=https://coredev.lndo.site uli
