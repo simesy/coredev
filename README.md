@@ -14,7 +14,8 @@ because Ahoy isn't good for Windows.
 ## Quick steps
 
 ```
-git clone git@github.com:simesy/coredev.git
+git clone git@github.com:simesy/coredev.git && cd coredev
+
 ahoy setup          # Destructive of anything that might be in ./91x directory.
 lando start         # Bring up the containers.
 ahoy install        # Install Drupal at https://coredev.lndo.site and get a login url.
