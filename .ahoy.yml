@@ -54,7 +54,5 @@ commands:
     usage: Apply a patch from a URL
     cmd: |
       cd 91x
-      git reset --hard
-      git clean -fd
       curl "$@" | git apply -v
       git status
