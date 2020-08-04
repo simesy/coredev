@@ -5,20 +5,21 @@ You're welcome to try it and offer PRs. I'm @sime in Drupal Slack #australia-nz.
 
 ## Dependencies
 
-This assumes Lando and Ahoy.
+This project currently assumes Lando and Ahoy. I would like to add straight docker-compose
+alongside Lando.
 
-Ahoy is just a simple command runner. You can in theory just run the commands as
-they appear in `.ahoy.yml`, or some Lando "tooling" PRs would be welcome.
+Ahoy is just a simple command runner. I would like to move this to Lando tooling
+because Ahoy isn't good for Windows.
 
 ## Quick steps
 
 ```
 git clone
-ahoy setup          # Destructive of anything that might be in ./drupal-91x.
+ahoy setup          # Destructive of anything that might be in ./91x directory.
 lando start         # Bring up the containers.
 ahoy install        # Install Drupal at https://coredev.lndo.site and get a login url.
 ahoy drush status   # Should show a functioning site.
-ahoy patch SOMEURL  # See notes.
+ahoy apply SOMEURL  # See notes.
 ```
 
 ## Some detail
@@ -31,77 +32,69 @@ The most obvious reason is that the file structure is different. A standard site
 Drupal core in `./vendor` and `./web/core` but when you work on core you may just have
 the Drupal repository with `./core` with `./vendor` at the top level.
 
-Normally you would add Drush via `composer.json` of your composer scaffold. Drupal core
-development generally doesn't use a scaffold because you want to keep it as stand-alone
-as possible. So if you added Drush via core's  `composer.json` you start to dirty up your
-git clone and you introduce a lot of dependencies (and possible composer conflicts).
+And normally you would add Drush in the `composer.json` of your scaffold but Drupal core
+development generally doesn't use a scaffold, so where to add Drush?
 
-Core developers seem to have their own tricks, but my preference is to keep my Drupal clone
-as clean as possible in a sandbox (this repo) with some helpful tooling. When I start to work on an
-issue I don't want to remember what I was working on last time, what I customised and why.
-I might want to destroy my setup completely and start again.
+My preference is to keep my Drupal clone as clean as possible with some helpful tooling.
+When I start to work on an issue I don't want to remember what I was working on last
+time, what I customised and why. I might want to destroy my setup completely and start again.
 
-While some devs like to use sqlite and other tools, I prefer to let Lando handle local
-dev stacks. This keeps my tooling the same across various projects. I prefer a site that I
-can install and reinstall with drush that is always at `https://coredev.lndo.site` and
-maps to `sites/default`.
+Core developers usually prefer docker-compose, however I want to use Lando to keep my
+tooling the same across various projects. I prefer a site that I can install and reinstall
+with drush that is always at `https://coredev.lndo.site` which maps to `sites/default`.
 
-## Key tasks
+## Workflow
 
-I put the main convenience commands in `.ahoy.yml` but I don't alway use them. These helpers
-double as documentation for how to achieve certain outcomes - I need these reminders
+In this project, the `.ahoy.yml` serves as an index of helpers task. I like these reminders
 if it's been months since I worked on Drupal core.
 
 ```
 ahoy setup
 ```
 
-Destructive. Installs Drush at `./vendor/bin/drush` and then (re)clones Drupal. I am just
-cloning Drupal core into `drupal-91x` which is excluded in `.gitignore`. There is a symlink
-from `_` to this directory. All the other `ahoy` commands point to symlink. This is a bit
-messy but fine for now.
+Run this after the initial clone. It installs Drush at `./vendor/bin/drush` and then
+(re)clones Drupal into ./91x which is excluded in `.gitignore`.
+
+(Of course I want to work on ./90x and ./89x, etc, but I'm not sure how I want to do this.
+So right now I'm just hard-coding `91x`.)
 
 ```
 ahoy reset
 ```
 
-This basically hard resets the Drupal clone (but doesn't touch your installed site). You are likely
-to lose work running this command if you're used to leaving patches lying around in your
-repo clone.
+This does a hard resets the Drupal clone (but doesn't touch your installed site).
 
 ```
 ahoy install
 ```
 
-Copies the settings.php file from the root of this repo and installs Drupal. 🥂 
-Gives a login link. 
+Resets sites/default, copies in some files from ./templates, and installs Drupal.
 
 ```
 ahoy drush
 ```
 
-Runs a drush command against the Drupal site. Basically it just runs `lando drush`
-passing in the root location and uri.
+Runs a drush command against the Drupal site, setting the right app path. It also runs
+drush cr because the Drupal container can get bits of Drush stuck in it.
 
 ```
-ahoy patch SOMEURL
+ahoy apply SOMEURL
 ```
 
-Get a URL to a patch (say from Drupal.org) and apply it. This is the way I usually work
-applying patches. Once I start working on more patches I will probably make some more fine-tuned
-commands. At the moment I just use git commands for most things.
+Apply a patch to Drupal from a URL. Usually I do git commands directly, but this is a 
+nice proof that everything is working.
 
 ## Run tests
 
-The correct SIMPLETEST environment settings should be in the container courtesy of the `.lando.yml`
-There is a separate database server `testdb` for the tests - not that this is really
-needed because of database prefixing - so tests should "just work".
+The correct SIMPLETEST environment settings should be in the container courtesy of the
+`.lando.yml`. There is a separate database server `testdb` for the tests (not that
+this is really needed because of database prefixing).
 
-So to run some tests:
+To run some tests:
 
 ```
 lando ssh
-cd _/core
+cd 91x/core
 ../vendor/bin/phpunit modules/user/tests/src/Functional/UserCreateTest.php
 ../vendor/bin/phpunit modules/user/tests/src/FunctionalJavascript/RegistrationWithUserFieldsTest.php
 ```

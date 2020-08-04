@@ -1,8 +1,13 @@
-# Code checkouts.
-/drupal-*
+# Code checkouts. Only using 91x right now.
+/89x
+/90x
+/91x
+
 # Where Drush is installed.
 /vendor
-# settings.php points here for config.
+
+# The settings.php points here for config import/export.
 /config/*
-# Place to drop patches.
+
+# Just a convenient place to drop patches.
 /patches/*

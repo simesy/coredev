@@ -7,15 +7,15 @@ commands:
     cmd: |
       lando stop
       composer install
-      chmod -Rf 755 _/sites/default
-      rm -rf drupal-91x
-      git clone https://git.drupalcode.org/project/drupal.git --depth=1 --branch=9.1.x drupal-91x
+      chmod -Rf 755 91x/sites/default
+      rm -rf 91x
+      git clone https://git.drupalcode.org/project/drupal.git --depth=3 --branch=9.1.x 91x
       ahoy reset
 
   reset:
     usage: Resets core ready for a new patch, leaving the site installed.
     cmd: |
-      cd _
+      cd 91x
       chmod -Rf 775 sites/default
       git stash
       git reset --hard
@@ -31,29 +31,29 @@ commands:
   install:
     usage: Does a fresh Drupal install
     cmd: |
-      chmod -Rf 775 _/sites/default
-      rm -Rf _/sites/default/*
-      cp ./templates/settings.php _/sites/default/settings.php
-      cp ./templates/services.yml _/sites/default/services.yml
+      chmod -Rf 775 91x/sites/default
+      rm -Rf 91x/sites/default/*
+      cp ./templates/settings.php 91x/sites/default/settings.php
+      cp ./templates/services.yml 91x/sites/default/services.yml
       cd _ && composer install && cd ..
-      lando drush --root=/app/_ site:install --yes
-      lando drush --root=/app/_ cache:rebuild
-      lando drush --root=/app/_ --uri=https://coredev.lndo.site uli
-      lando drush --root=/app/_ cache:rebuild
-      chmod -R 775 _/sites/default
-      cd _ && git checkout sites/default # Install removes some files we don't want to show as dirty in git.
+      lando drush --root=/app/91x site:install --yes
+      lando drush --root=/app/91x cache:rebuild
+      lando drush --root=/app/91x --uri=https://coredev.lndo.site uli
+      lando drush --root=/app/91x cache:rebuild
+      chmod -R 775 91x/sites/default
+      cd 91x && git checkout sites/default # Install removes some files we don't want to show as dirty in git.
 
   drush:
     usage: Drush command against the site
     cmd: |
-      lando drush --root=/app/_ --uri=https://coredev.lndo.site "$@"
+      lando drush --root=/app/91x --uri=https://coredev.lndo.site "$@"
       # Avoids getting drush stuck in the container when you switch back to web.
-      lando drush --root=/app/_ cr
+      lando drush --root=/app/91x cr
 
   patch:
     usage: Apply a patch from a URL
     cmd: |
-      cd _
+      cd 91x
       git reset --hard
       git clean -fd
       curl "$@" | git apply -v

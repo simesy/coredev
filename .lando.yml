@@ -4,11 +4,7 @@ config:
   php: '7.3'
   via: nginx
   database: mariadb
-  webroot: drupal-91x
-#
-#proxy:
-#  appserver:
-#    - tests.lndo.site
+  webroot: 91x
 
 services:
   appserver:
