@@ -68,3 +68,9 @@ commands:
       cd 91x
       curl "$@" | git apply -v
       git status
+
+  roll:
+    usage: Role a patch, with a file name.
+    cmd: |
+      cd 91x
+      git diff > ../patches/"$@".patch
