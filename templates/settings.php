@@ -47,5 +47,3 @@ if (1 == 1) {
     '^localhost$',                                     # localhost access
   ];
 }
-
-$settings['install_profile'] = 'minimal';

@@ -31,6 +31,7 @@ commands:
   reset-sites-default:
     usage: Remove and reset anything in sites/default.
     cmd: |
+      ahoy fix-perms
       rm -Rf 91x/sites/default
       cd 91x
       git checkout sites/default
